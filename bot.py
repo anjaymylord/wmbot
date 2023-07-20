@@ -45,7 +45,7 @@ def photo_handler(update, context):
     photo_path = f"photo_{update.message.chat_id}.jpg"
     photo_file.download(photo_path)
 
-    logo_path = "path_ke_logo_anda.png"
+    logo_path = "resource/watermark.png"
     output_path = f"output_photo_{update.message.chat_id}.jpg"
 
     add_logo_to_photo(photo_path, logo_path, output_path)
@@ -67,7 +67,7 @@ def video_handler(update, context):
 
 def main():
     # Inisialisasi bot
-    updater = Updater("TOKEN_BOT_ANDA", use_context=True)
+    updater = Updater("6033844635:AAFyS1UGT8MmGTOUDjFITn_bWkJaGPInA5g", use_context=True)
     dp = updater.dispatcher
 
     # Menambahkan handler untuk foto dan video
