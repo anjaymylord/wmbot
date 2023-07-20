@@ -40,30 +40,34 @@ def add_logo_to_frame(frame, logo):
     return frame
 
 # Fungsi yang akan dipanggil ketika ada gambar yang dikirim pengguna
-def photo_handler(update, context):
-    photo_file = update.message.photo[-1].get_file()
-    photo_path = f"photo_{update.message.chat_id}.jpg"
-    photo_file.download(photo_path)
+def media_handler(update, context):
+    media = update.message.effective_attachment
 
-    logo_path = "resource/watermark.png"
-    output_path = f"output_photo_{update.message.chat_id}.jpg"
+    if media.mime_type.startswith("image"):
+        # Menangani foto
+        media_file = media.get_file()
+        photo_path = f"photo_{update.message.chat_id}.jpg"
+        media_file.download(photo_path)
 
-    add_logo_to_photo(photo_path, logo_path, output_path)
+        logo_path = "resource/watermark.png"
+        output_path = f"output_photo_{update.message.chat_id}.jpg"
 
-    update.message.reply_photo(photo=open(output_path, "rb"))
+        add_logo_to_photo(photo_path, logo_path, output_path)
 
-# Fungsi yang akan dipanggil ketika ada video yang dikirim pengguna
-def video_handler(update, context):
-    video_file = update.message.video.get_file()
-    video_path = f"video_{update.message.chat_id}.mp4"
-    video_file.download(video_path)
+        update.message.reply_photo(photo=open(output_path, "rb"))
 
-    logo_path = "path_ke_logo_anda.png"
-    output_path = f"output_video_{update.message.chat_id}.mp4"
+    elif media.mime_type.startswith("video"):
+        # Menangani video
+        media_file = media.get_file()
+        video_path = f"video_{update.message.chat_id}.mp4"
+        media_file.download(video_path)
 
-    add_logo_to_video(video_path, logo_path, output_path)
+        logo_path = "resource/watermark.png"
+        output_path = f"output_video_{update.message.chat_id}.mp4"
 
-    update.message.reply_video(video=open(output_path, "rb"))
+        add_logo_to_video(video_path, logo_path, output_path)
+
+        update.message.reply_video(video=open(output_path, "rb"))
 
 def main():
     # Inisialisasi bot
